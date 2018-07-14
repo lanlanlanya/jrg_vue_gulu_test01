@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/lanlanlanya/jrg_vue_gulu_test01/issues"
   },
-  "homepage": "https://github.com/lanlanlanya/jrg_vue_gulu_test01#readme"
+  "homepage": "https://github.com/lanlanlanya/jrg_vue_gulu_test01#readme",
+  "dependencies": {
+    "vue": "^2.5.16"
+  }
 }
