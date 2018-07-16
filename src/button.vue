@@ -1,10 +1,10 @@
 <template>
-        <button class="g-button" :class="{[`icon-${iconPosition}`]:true}">
+        <button class="g-button" :class="{[`icon-${iconPosition}`]:true}"  @click="$emit('click')">
            <!-- <svg v-if="icon" class="icon">
                 <use :xlink:href="`#i-${icon}`"></use>
             </svg>-->
-            <g-icon class="icon" v-if="icon" :name="icon"/>
-            <g-icon name="loading" class="loading"></g-icon>
+            <g-icon class="icon" v-if="icon && !loading" :name="icon"/>
+            <g-icon name="loading" class="loading icon" v-if="loading"></g-icon>
             <div class="content">
                 <slot></slot>
             </div>
@@ -15,6 +15,10 @@
        // props:['icon','iconPosition']
        props:{
            icon:{},
+           loading:{
+               type:Boolean,
+               default:false
+           },
            iconPosition:{
                type:String,
                default:'left',
@@ -46,10 +50,10 @@
         border-radius:var(--border-radius);
         border:1px solid var(--border-color);
         background: var(--button-bg);
-        display: inline-flex;
+        /*让按钮上的图标和文字对齐,用inline-flex*/
+        display: inline-flex; justify-content: center; align-items: center;
+        /*让图标和外部图标对齐*/
         vertical-align: top;
-        justify-content: center;
-        align-items: center;
         &:hover{
             border-color:var(--border-color-hover);
         }
