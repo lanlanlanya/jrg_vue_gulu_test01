@@ -4,12 +4,16 @@
     </div>
 </template>
 <script>
-    // export  default {
-    //     mounted(){
-    //         console.log('here');
-    //         console.log(this.children);
-    //     }
-    // }
+    export  default {
+        mounted(){
+            for(let node of this.$el.children){
+                console.log(node);
+                if(node.nodeName.toLowerCase()!=='button'){
+                    console.log(`g-button-group 的子元素应该全是g-button,但是你写的时${name}`)
+                }
+            }
+        }
+    }
 </script>
 <style lang="scss">
     .g-button-group{
@@ -17,7 +21,9 @@
         vertical-align: top;
         >.g-button{
             border-radius:0;
-          margn-left:-1px;
+            &:not(:first-child){
+                margn-left:-1px;
+            }
             &:first-child{
             border-top-left-radius:var(--border-radius);
             border-bottom-left-radius:var(--border-radius);
