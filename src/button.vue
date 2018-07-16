@@ -4,6 +4,7 @@
                 <use :xlink:href="`#i-${icon}`"></use>
             </svg>-->
             <g-icon class="icon" v-if="icon" :name="icon"/>
+            <g-icon name="loading" class="loading"></g-icon>
             <div class="content">
                 <slot></slot>
             </div>
@@ -30,6 +31,14 @@
 
 </style>
 <style lang="scss" >
+    @keyframes spin{
+        0% {
+            transform:rotate(0deg);
+        }
+        100% {
+            transform:rotate(360deg);
+        }
+    }
     .g-button{
         font-size:var(--font-size);
         height: var(--button-height);
@@ -65,6 +74,9 @@
             >.content{
                 order:1;
             }
+        }
+        .loading{
+            animation:spin 2s infinite linear;
         }
     }
 </style>
