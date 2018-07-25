@@ -8,6 +8,9 @@ Vue.config.devtools = false;
 describe('Button', () => {
     it('存在.', () => {
         expect(Button).to.be.ok;
+        expect([1,2]).to.deep.eq([1,2]);
+        // expect(NaN).to.eq(NaN);  failed
+        // expect(NaN).to.be.NaN;   success
     });
     it('可以设置icon.', () => {
         const Constructor = Vue.extend(Button);
