@@ -13,6 +13,19 @@ new Vue({
         loading1:false,
         loading2:true,
         loading3:false
+    },
+    created(){
+        // setTimeout(()=>{
+        //     let event =new Event('change');
+        //     let inputElement=this.$el.querySelector('input');
+        //     inputElement.dispatchEvent(event);
+        //     console.log('hi');
+        // },3000)
+    },
+    methods:{
+        inputChange(e){
+            console.log(e);
+        }
     }
 });
 //单元测试
@@ -31,7 +44,7 @@ const expect=chai.expect;
         });
         vm.$mount();
         let useElement = vm.$el.querySelector('use');
-        console.log(useElement);
+        // console.log(useElement);
         let href = useElement.getAttribute('xlink:href');
         expect(href).to.eq('#i-settings');
         vm.$el.remove();
@@ -103,7 +116,7 @@ const expect=chai.expect;
     })
     gButton.$on('click', spy);
     let button = gButton.$el;
-    console.log(button);
+    // console.log(button);
     button.click();
     expect(spy).to.have.been.called();
 }
