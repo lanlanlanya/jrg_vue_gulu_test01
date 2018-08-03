@@ -70,9 +70,14 @@ describe('Input', () => {
                 // 触发change事件
                 var event=new Event(eventName);
                 // console.log(event);
+                Object.defineProperty(
+                    event,'target',{
+                        value:{value:'hi'},enumerable:true
+                    }
+                );
                 let inputElement=vm.$el.querySelector('input');
                 inputElement.dispatchEvent(event);
-                expect(callback).to.have.been.calledWith(event);
+                expect(callback).to.have.been.calledWith('hi');
             });
             /*let vm=new Constructor({ }).$mount();
             const callback=sinon.fake();
