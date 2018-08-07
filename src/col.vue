@@ -41,7 +41,7 @@
     .col{
         height: 80px;
         /*background: grey;*/
-        width:50%;
+        /*width:50%;*/
         /*border:1px solid red;*/
         /*padding:0 10px;*/
         $class-prefix: col-;
