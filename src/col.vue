@@ -29,7 +29,7 @@
                     array.push(`col-${string}${obj.span}`);
                 }
                 if(obj.offset) {
-                    array.push(`col-${string}${obj.offset}`);
+                    array.push(`offset-${string}${obj.offset}`);
                 }
                 return array;
             }
