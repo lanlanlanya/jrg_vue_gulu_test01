@@ -40,7 +40,12 @@ new Vue({
         //     inputElement.dispatchEvent(event);
         //     console.log('hi');
         // },3000)
-        // this.$toast('我是 message');
+         this.$toast('很多文字很多文字很多文字很多文字很多文字很' +
+             '多文字很多文字很多文字很多文字很多文字很多文字很多文' +
+             '字很多文字很多文字很多文字很多文字很多文字很多文字很' +
+             '多文字很多文字很多文字完',{
+             enableHtml:false
+         });
     },
     methods:{
         inputChange(e){
