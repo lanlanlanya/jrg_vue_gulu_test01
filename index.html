@@ -28,23 +28,23 @@
         body{
             font-size:var(--font-size);
         }
-        .demo{
-            background:#ddd;
-            border:1px solid #666;
-            min-height:100px;
-        }
-        .sider{
-            background: #333;
-            width: 200px;
-        }
-        .header{
-            background: #999;
-            height: 100px;
-        }
-        .footer{
-            background: #ccc;
-            height:50px;
-        }
+        /*.demo{*/
+            /*background:#ddd;*/
+            /*border:1px solid #666;*/
+            /*min-height:100px;*/
+        /*}*/
+        /*.sider{*/
+            /*background: #333;*/
+            /*width: 200px;*/
+        /*}*/
+        /*.header{*/
+            /*background: #999;*/
+            /*height: 100px;*/
+        /*}*/
+        /*.footer{*/
+            /*background: #ccc;*/
+            /*height:50px;*/
+        /*}*/
         /*.sider.slide-enter-active,.sider.slide-leave-active{*/
             /*transition:all  .5s;*/
         /*}*/
@@ -56,6 +56,7 @@
 </head>
 <body>
 <div id="app">
+    <button @click="showToast">点我 showToast</button>
     <!--<g-layout style="height:100vh;">-->
         <!--<g-header class="demo">header</g-header>-->
         <!--<g-layout>-->
@@ -64,17 +65,18 @@
         <!--</g-layout>-->
         <!--<g-footer class="demo">footer</g-footer>-->
     <!--</g-layout>-->
-    <hr>
-    <br>
-    <g-layout style="height:100vh;">
-        <g-sider class="demo">sider</g-sider>
+    <!--<hr>-->
+    <!--<br>-->
+    <!--布局-->
+    <!--<g-layout style="height:100vh;">-->
+        <!--<g-sider class="demo">sider</g-sider>-->
 
-        <g-layout>
-            <g-header class="demo">header</g-header>
-            <g-content class="demo">content</g-content>
-            <g-footer class="demo">footer</g-footer>
-        </g-layout>
-    </g-layout>
+        <!--<g-layout>-->
+            <!--<g-header class="demo">header</g-header>-->
+            <!--<g-content class="demo">content</g-content>-->
+            <!--<g-footer class="demo">footer</g-footer>-->
+        <!--</g-layout>-->
+    <!--</g-layout>-->
     <!--<div style="border:1px solid #000;">-->
         <!--<g-row gutter="20">-->
             <!--<g-col span="12"-->
