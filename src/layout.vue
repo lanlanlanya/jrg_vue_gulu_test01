@@ -28,7 +28,6 @@
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        border:1px solid #f00;
         &.hasSider{
             flex-direction: row;
         }
