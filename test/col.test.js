@@ -30,7 +30,6 @@ describe('Col', () => {
                 offset: 1
             }
         }).$mount(div);
-        console.log(vm.$el);
         expect(vm.$el.classList.contains('offset-1')).to.equal(true);
         div.remove();
         vm.$destroy();
