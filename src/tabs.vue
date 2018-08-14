@@ -4,6 +4,7 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue'
     export default{
         name:"GuluTabs",
         props:{
@@ -19,8 +20,22 @@
                 }
             }
         },
+        data(){
+            return {
+                eventBus:new Vue()
+            }
+        },
+        provide(){
+            return {
+                eventBus:this.eventBus
+            }
+        },
         created(){
-            // this.$emit('update:selected','xxx');
+
+        },
+        mounted(){
+            // this.$emit('update:selected',"这是this $emit 出来的数据");
+            this.eventBus.$emit('update:selected',this.selected);
         }
     }
 </script>

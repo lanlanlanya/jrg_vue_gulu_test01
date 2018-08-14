@@ -54,6 +54,9 @@ new Vue({
 
     },
     methods:{
+        yyy(data){
+            console.log('yyy:'+data)
+        },
         showToast1(){
             this.showToast('top');
         },
@@ -70,7 +73,7 @@ new Vue({
                 closeButton:{
                     text:'已充值',
                     callback(){
-                        console.log('他说已经充值智商了');
+
                     }
                 },
                 autoClose:3
