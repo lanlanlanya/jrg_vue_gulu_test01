@@ -50,7 +50,12 @@
 <style lang="scss" scoped>
     .tabs-item{
         flex-shrink: 0;
+        height: 100%;
         padding:0 2em;
+        cursor: pointer;
+        border:1px solid #222;
+        display:flex;
+        align-items: center;
         &.active{
             background:#f00;
         }
