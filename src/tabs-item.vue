@@ -32,32 +32,31 @@
         created: function () {
             this.eventBus.$on('update:selected', (name) => {
                 if (name == this.name) {
-                    console.log(`我${this.name}被选中了！`);
                     this.active = true;
                 } else {
-                    console.log(`我${this.name}没被选中`);
                     this.active = false;
                 }
             })
         },
         methods:{
             xxx(){
-                this.eventBus.$emit('update:selected',this.name);
+                this.eventBus.$emit('update:selected',this.name,this);
             }
         }
     }
 </script>
 <style lang="scss" scoped>
+    $blue:blue;
     .tabs-item{
         flex-shrink: 0;
         height: 100%;
         padding:0 2em;
         cursor: pointer;
-        border:1px solid #222;
         display:flex;
         align-items: center;
         &.active{
-            background:#f00;
+            color:$blue;
+            font-weight: bold;
         }
     }
 </style>
