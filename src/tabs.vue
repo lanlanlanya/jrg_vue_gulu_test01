@@ -1,5 +1,5 @@
 <template>
-    <div class="tabs">
+    <div class="tabs" >
         <slot></slot>
     </div>
 </template>
@@ -34,7 +34,9 @@
 
         },
         mounted(){
-            // this.$emit('update:selected',"这是this $emit 出来的数据");
+            if(this.$children.length===0){
+                console&&console.warn&&console.warn('tabs的子组件应该是 tabs-head和tabs-body,但你没有写子组件');
+            }
             this.$children.forEach((vm)=>{
                 if(vm.$options.name==='GuluTabsHead'){
                     vm.$children.forEach((childVm)=>{
