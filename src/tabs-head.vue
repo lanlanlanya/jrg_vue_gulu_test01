@@ -12,10 +12,17 @@
     export default{
         name:"GuluTabsHead",
         inject:['eventBus'],
-        created(){
+        data(){
+            return {
+                x:false
+            }
+        },
+        mounted(){
             this.eventBus.$on('update:selected',(item,vm)=>{
-                console.log(item);
-                console.log(vm);
+                 let {width,height,top,left}=vm.$el.getBoundingClientRect();
+                this.$refs.line.style.width=`${width}px`;
+                console.log(left);
+                this.$refs.line.style.left=`translateX(${left}px)`;
             })
         }
     }
@@ -31,8 +38,8 @@
         >.line{
             position: absolute;
             bottom:0;
-            border-bottom: 1px solid $blue;
-            width:100px;
+            border-bottom: 2px solid $blue;
+            transition:all 250ms ;
         }
         >.actions-wrapper{
             margin-left: auto;
