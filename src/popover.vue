@@ -1,6 +1,6 @@
 <template>
-   <div class="popover" @click="xxx">
-       <div class="content-wrapper"  v-if="visiable">
+   <div class="popover" @click.stop="xxx">
+       <div class="content-wrapper" @click.stop v-if="visible">
            <slot name="content"></slot>
        </div>
        <slot></slot>
@@ -12,12 +12,25 @@
         name: "GuluPopover",
         data(){
             return {
-                visiable:false
+                visible:false
             }
         },
         methods:{
             xxx(){
-               this.visiable=!this.visiable;
+               this.visible=!this.visible;
+               console.log('切换visible');
+               if(this.visible===true){
+                   this.$nextTick(()=>{
+                     let eventHandler=()=>{
+                           this.visible=false;
+                           document.removeEventListener('click',eventHandler);
+                         console.log('document隐藏popover');
+                       }
+                       document.addEventListener('click',eventHandler);
+                   });
+               }else{
+                   console.log('vm隐藏popover');
+               }
             }
         }
     }
