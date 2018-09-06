@@ -31,20 +31,33 @@
     </style>
 </head>
 <body>
-<div id="app" style="padding-top:100px;padding-left:100px;border:1px solid red;">
-    <div style="overflow:hidden;border:1px solid green;padding:5px;" onclick="">
-        <g-popover>
+<div id="app">
+    <div style="overflow:hidden;padding:150px;" onclick="">
+        <g-popover position="bottom">
+            <template slot="content">
+                <div>sdfdfdgfdgfhgfsaxzsvcbngkjk.l;</div>
+            </template>
+            <g-button>点我</g-button>
+        </g-popover>
+        <g-popover position="top">
             <template slot="content">
                 <div>popover内容</div>
             </template>
-            <button>点我</button>
+            <g-button>点我</g-button>
         </g-popover>
-        <g-popover>
+        <g-popover position="left">
             <template slot="content">
                 <div>popover内容</div>
             </template>
-            <button>点我</button>
+            <g-button>点我</g-button>
         </g-popover>
+        <g-popover position="right">
+        <template slot="content">
+            <div>popover内容</div>
+        </template>
+        <g-button>点我</g-button>
+    </g-popover>
+
     </div>
 </div>
 <script src="./src/app.js"></script>
