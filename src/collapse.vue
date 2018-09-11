@@ -17,7 +17,11 @@
         props:{
             single:{
                 type:Boolean,
-                default:false
+                default:true
+            },
+            selected:{
+                type:String
+
             }
         },
         provide(){
@@ -26,7 +30,9 @@
                     eventBus:this.eventBus
                 }
             }
-
+        },
+        mounted(){
+            this.eventBus.$emit('update:selected',this.selected)
         }
     }
 </script>
