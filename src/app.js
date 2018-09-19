@@ -64,9 +64,14 @@ new Vue({
                 children:[
                 {name: "福州", children: [{ name: "鼓楼区"},{name: "台江区"}, {name: "仓山区"}]}
             ]
+            },
+            {name:'河北',
+                children:[
+                    {name: "石家庄", children: [{ name: "桥东区"},{name: "桥西区"}, {name: "开发区"}]},
+                    {name: "邯郸市", children: [{ name: "磁县"},{name: "涉县"}, {name: "大名"}]}
+                ]
             }
           ]
-
     },
     created(){
         // setTimeout(()=>{
