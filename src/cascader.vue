@@ -1,6 +1,7 @@
 <template>
     <div class="cascader">
         <div class="trigger" @click="popoverVisible=!popoverVisible">
+            {{result || "请选择" }}
         </div>
         <div class="popover-wrapper" v-if="popoverVisible">
             <cascader-items :items="source" class="popover" :height="popoverHeight"
@@ -38,6 +39,11 @@
             onUpdateSelected(newSelected){
                 this.$emit('update:selected',newSelected)
             }
+        },
+        computed:{
+            result(){
+                return this.selected.map((item)=>item.name).join('/');
+            }
         }
     }
 </script>
@@ -47,9 +53,14 @@
 .cascader{
     position:relative;
     .trigger{
-        border:1px solid #666;
-        height:32px;
-        width:100px;
+        min-width:10em;
+        height:$input-height;
+        display:inline-flex;
+        align-items:center;
+        color:$color;
+        padding: 0 1em;
+        border:1px solid $border-color;
+        border-radius:$border-radius;
     }
     .popover-wrapper{
         position:absolute;
@@ -58,6 +69,7 @@
         background-color:#fff;
         display:flex;
         @extend .box-shadow;
+        margin-top:3px;
     }
 
 
