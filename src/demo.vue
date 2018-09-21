@@ -1,6 +1,8 @@
 <template>
     <div id="app">
-        <p>{{selected}}</p>
+        <div>{{selected && selected[0]&&selected[0].name || '空'}}</div>
+        <div>{{selected && selected[1]&&selected[1].name || '空'}}</div>
+        <div>{{selected && selected[2]&&selected[2].name || '空'}}</div>
         <g-cascader :source="source" popover-height="200px"
              :selected="selected" @update:selected="selected=$event"></g-cascader>
         <p>222222222222</p>
