@@ -1,7 +1,8 @@
 <template>
     <div id="app">
-        <p>111111111111</p>
-        <g-cascader :source="source" popover-height="200px"></g-cascader>
+        <p>{{selected}}</p>
+        <g-cascader :source="source" popover-height="200px"
+             :selected="selected" @update:selected="selected=$event"></g-cascader>
         <p>222222222222</p>
         <g-button>你好</g-button>
     </div>
@@ -14,6 +15,7 @@
         name: "demo",
         data(){
             return {
+                selected:[],
                 source:[
                     {name:'浙江',
                         children:[

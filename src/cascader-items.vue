@@ -1,13 +1,15 @@
 <template>
     <div class="cascaderItem" :style="{height:height}">
+        <div>{{level}}</div>
         <div class="left">
-            <div v-for="item in items" @click="leftSelected=item" class="label">
+            <div v-for="item in items" class="label" @click="onClickLabel(item)">
                 {{item.name}}
-                <icon v-if="item.children" name="right" class="icon"> > </icon>
+                <icon v-if="item.children" name="right" class="icon"></icon>
             </div>
         </div>
         <div class="right" v-if="rightItems">
-            <g-cascader-items :items="rightItems" :height="height"></g-cascader-items>
+            <g-cascader-items :items="rightItems" :height="height"
+              :selected="selected" :level="level+1" @update:selected="onUpadeSelected"></g-cascader-items>
         </div>
     </div>
 </template>
@@ -23,20 +25,41 @@
             },
             height:{
                 type:String
-            }
-        },
-        data(){
-            return {
-                leftSelected:null
+            },
+            selected:{
+                type:Array,
+                default:()=>{
+                    return [];
+                }
+            },
+            level:{
+                type:Number,
+                default:0
             }
         },
         computed:{
             rightItems(){
-                if(this.leftSelected && this.leftSelected.children){
-                    return this.leftSelected.children
+                let currentSelected=this.selected[this.level];
+                if(currentSelected && currentSelected.children){
+                    return currentSelected.children;
                 }else{
                     return null;
                 }
+            }
+        },
+        mounted(){
+
+
+        },
+        methods:{
+            onClickLabel(item){
+                // this.$set(this.selected,this.level,item);
+                let copy=JSON.parse(JSON.stringify(this.selected));
+                copy[this.level]=item;
+                this.$emit('update:selected',copy);
+            },
+            onUpadeSelected(newSelected){
+                this.$emit('update:selected',newSelected);
             }
         }
     }
@@ -45,6 +68,7 @@
 <style scoped lang="scss">
     @import 'var';
     .cascaderItem{
+        border:1px solid red;
         display:flex;
         align-items:flex-start;
         justify-content:flex-start;
