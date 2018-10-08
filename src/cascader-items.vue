@@ -2,13 +2,13 @@
     <div class="cascaderItem" :style="{height:height}">
         <div class="left">
             <div v-for="item in items" class="label" @click="onClickLabel(item)">
-                {{item.name}}
-                <icon v-if="item.children" name="right" class="icon"></icon>
+                <span class="name">   {{item.name}} </span>
+                <icon  name="right" class="icon" v-if="rightArrowVisible(item)"></icon>
             </div>
         </div>
         <div class="right" v-if="rightItems">
-            <g-cascader-items :items="rightItems" :height="height"
-              :selected="selected" :level="level+1" @update:selected="onUpadeSelected"></g-cascader-items>
+            <g-cascader-items :items="rightItems" :height="height" ref="right"
+              :selected="selected" :level="level+1" @update:selected="onUpdateSelected"></g-cascader-items>
         </div>
     </div>
 </template>
@@ -25,6 +25,9 @@
             height:{
                 type:String
             },
+            loadData:{
+                type:Function
+            },
             selected:{
                 type:Array,
                 default:()=>{
@@ -36,32 +39,28 @@
                 default:0
             }
         },
-        updated(){
-
-        },
         computed:{
             rightItems(){
-                if(this.selected && this.selected[this.level]){
-                    let selected=this.items.filter(item=>item.name===this.selected[this.level].name);
-                    if(selected && selected[0].children &&  selected[0].children.length>0){
-                        return  selected[0].children;
-                    };
+                if(this.selected[this.level]){
+                        let selected=this.items.filter((item)=>item.name===this.selected[this.level].name);
+                        if(selected && selected[0].children &&  selected[0].children.length>0){
+                            return  selected[0].children;
+                        }
                 }
             }
         },
-        mounted(){
-
-
-        },
         methods:{
-            onClickLabel(item){
-                // this.$set(this.selected,this.level,item);
-                let copy=JSON.parse(JSON.stringify(this.selected));
+        rightArrowVisible(item){
+            console.log(this.loadData ? !item.isLeaf : item.children);
+            return this.loadData ? !item.isLeaf : item.children;
+        },
+         onClickLabel(item){
+             let copy=JSON.parse(JSON.stringify(this.selected));
                 copy[this.level]=item;
                 copy.splice(this.level+1);
                 this.$emit('update:selected',copy);
             },
-            onUpadeSelected(newSelected){
+            onUpdateSelected(newSelected){
                 this.$emit('update:selected',newSelected);
             }
         }
@@ -86,11 +85,19 @@
         }
         .label{
             white-space:nowrap;
-            padding: .3em 1em;
+            padding: .5em 1em;
             display:flex;
             align-items:center;
+            cursor:pointer;
+            &:hover{
+                background-color:$rey;
+            }
+            >.name{
+                margin-right:2em;
+                user-select:none;
+            }
             .icon{
-                margin-left:1em;
+                margin-left:auto;
                 transform:scale(0.7)
             }
         }

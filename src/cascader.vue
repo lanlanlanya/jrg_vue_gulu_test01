@@ -4,8 +4,10 @@
             {{result || "请选择" }}
         </div>
         <div class="popover-wrapper" v-if="popoverVisible">
-            <cascader-items :items="source" class="popover" :height="popoverHeight"
-                 :selected="selected" @update:selected="onUpdateSelected"></cascader-items>
+            <cascader-items :items="source" class="popover"  :loadData="loadData"
+                            :height="popoverHeight" :selected="selected"
+                            @update:selected="onUpdateSelected" ></cascader-items>
+
         </div>
     </div>
 </template>
@@ -38,9 +40,8 @@
                 popoverVisible:false
             }
         },
-        updated(){
-        },
-        methods:{
+       updated(){},
+       methods:{
             onUpdateSelected(newSelected){
                 this.$emit('update:selected',newSelected);
                 let lastItem=newSelected[newSelected.length-1];
@@ -81,8 +82,10 @@
                      toUpdate.children=result;
                      this.$emit('update:source',copy);
                 };
-                this.loadData(lastItem,updateSource);//回调:把别人传给我的函数调用一下
-            //    调回调的时候传一个函数，这个函数理论上应该被调用
+                if(!lastItem.isLeaf){
+                    this.loadData && this.loadData(lastItem,updateSource);//回调:把别人传给我的函数调用一下
+                    //    调回调的时候传一个函数，这个函数理论上应该被调用
+                }
             }
         },
         computed:{
