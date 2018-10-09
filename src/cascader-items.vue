@@ -51,7 +51,6 @@
         },
         methods:{
         rightArrowVisible(item){
-            console.log(this.loadData ? !item.isLeaf : item.children);
             return this.loadData ? !item.isLeaf : item.children;
         },
          onClickLabel(item){
