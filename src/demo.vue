@@ -7,14 +7,14 @@
                         :selected.sync="selected"
             ></g-cascader>
         </div>
-      <g-popover>
-          <template>
-              <g-button>点我</g-button>
-          </template>
-          <template slot="content">
-              弹出内容
-          </template>
-      </g-popover>
+      <!--<g-popover>-->
+          <!--<template>-->
+              <!--<g-button>点我</g-button>-->
+          <!--</template>-->
+          <!--<template slot="content">-->
+              <!--弹出内容-->
+          <!--</template>-->
+      <!--</g-popover>-->
     </div>
 </template>
 
@@ -23,6 +23,7 @@
     import Cascader from './cascader'
     import db from './db'
     import Popover from './popover'
+    // import {removeListener} from './click-outside'
     // function ajax2(parentId=0,success,fail){
     //     let id= setTimeout(()=>{
     //          let result= db.filter((item)=>item.parent_id===parentId);
@@ -64,6 +65,9 @@
                 this.source=result;
             });
         },
+        // destroyed(){
+        //     removeListener();
+        // },
         components:{
             'g-button':Button,
             'g-cascader':Cascader,
