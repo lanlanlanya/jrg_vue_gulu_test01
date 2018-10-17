@@ -7,14 +7,7 @@
                         :selected.sync="selected"
             ></g-cascader>
         </div>
-      <!--<g-popover>-->
-          <!--<template>-->
-              <!--<g-button>点我</g-button>-->
-          <!--</template>-->
-          <!--<template slot="content">-->
-              <!--弹出内容-->
-          <!--</template>-->
-      <!--</g-popover>-->
+        <div>{{selected}}</div>
     </div>
 </template>
 
@@ -44,7 +37,7 @@
                });
 
                 success(result)
-            },300);
+            },500);
         });
     }
     export default {

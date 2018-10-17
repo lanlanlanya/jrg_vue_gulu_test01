@@ -3,12 +3,23 @@
         <div class="left">
             <div v-for="item in items" class="label" @click="onClickLabel(item)">
                 <span class="name">   {{item.name}} </span>
-                <icon  name="right" class="icon" v-if="rightArrowVisible(item)"></icon>
+                <span class="icons">
+                    <template v-if="item.name === loadingItem.name">
+                        <icon name="loading" class="icon loading"></icon>
+                    </template>
+                    <template v-else>
+                         <icon  name="right" class="next" v-if="rightArrowVisible(item)"></icon>
+                    </template>
+                </span>
             </div>
         </div>
         <div class="right" v-if="rightItems">
             <g-cascader-items :items="rightItems" :height="height" ref="right"
-              :selected="selected" :level="level+1" @update:selected="onUpdateSelected"></g-cascader-items>
+                              :loading-item="loadingItem"
+                              :load-data="loadData"
+                              :selected="selected"
+                              :level="level+1"
+                              @update:selected="onUpdateSelected"></g-cascader-items>
         </div>
     </div>
 </template>
@@ -27,6 +38,10 @@
             },
             loadData:{
                 type:Function
+            },
+            loadingItem:{
+                type:Object,
+                default:()=>({})
             },
             selected:{
                 type:Array,
@@ -95,10 +110,16 @@
                 margin-right:2em;
                 user-select:none;
             }
-            .icon{
+            .icons{
                 margin-left:auto;
-                transform:scale(0.7)
+                .next{
+                    transform:scale(0.7);
+                }
+                .loading{
+                    animation:spin 2s infinite linear;
+                }
             }
         }
     }
+
 </style>
