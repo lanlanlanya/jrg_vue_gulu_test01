@@ -1,13 +1,13 @@
 <template>
     <div id="app">
         <g-slides width="300px;" height="200px;" :selected.sync="selected">
-            <g-slides-item name="你好">
+            <g-slides-item name="1">
                 <div class="box">1</div>
             </g-slides-item>
-            <g-slides-item name="hello">
+            <g-slides-item name="2">
                 <div class="box">2</div>
             </g-slides-item>
-            <g-slides-item name="world">
+            <g-slides-item name="3">
                 <div class="box">3</div>
             </g-slides-item>
         </g-slides>
@@ -26,7 +26,7 @@
         },
         data(){
             return {
-                selected:'world'
+                selected:'3'
             }
         },
         created(){
@@ -43,9 +43,12 @@
     *{
         margin:0;padding:0;box-sizing:border-box;
     }
+    .wrapper{
+        margin:40px;
+    }
 .box{
-    width:200px;
-    height:150px;
+    width:100%;
+    height:350px;
     background-color:#ddd;
     border:1px solid red;
 }
