@@ -1,81 +1,52 @@
 <template>
     <div id="app">
-        <div style="padding:20px;">
-            <g-cascader :source.sync="source"
-                        popover-height="200px"
-                        :load-data="loadData"
-                        :selected.sync="selected"
-            ></g-cascader>
-        </div>
-        <div>{{selected}}</div>
+        <g-slides width="300px;" height="200px;" :selected.sync="selected">
+            <g-slides-item name="你好">
+                <div class="box">1</div>
+            </g-slides-item>
+            <g-slides-item name="hello">
+                <div class="box">2</div>
+            </g-slides-item>
+            <g-slides-item name="world">
+                <div class="box">3</div>
+            </g-slides-item>
+        </g-slides>
     </div>
 </template>
 
 <script>
-    import Button from './button'
-    import Cascader from './cascader'
-    import db from './db'
-    import Popover from './popover'
-    // import {removeListener} from './click-outside'
-    // function ajax2(parentId=0,success,fail){
-    //     let id= setTimeout(()=>{
-    //          let result= db.filter((item)=>item.parent_id===parentId);
-    //          success(result);
-    //      },3000);
-    //     return id;
-    // }
-    function ajax(parentId=0){
-        return new Promise((success)=>{
-            setTimeout(()=>{
-                let result= db.filter((item)=>item.parent_id===parentId);
-                result.forEach(node=>{
-                    if(db.filter(item=>item.parent_id===node.id).length>0){
-                   node.isLeaf=false;
-                }else{
-                   node.isLeaf=true;
-                }
-               });
 
-                success(result)
-            },500);
-        });
-    }
+    import Slides from './slides'
+    import SlidesItem from './slides-item'
     export default {
         name: "demo",
+        components:{
+            "g-slides":Slides,
+            "g-slides-item":SlidesItem,
+        },
         data(){
             return {
-                selected:[],
-                source:[]
+                selected:undefined
             }
         },
         created(){
-            // ajax2(0,(result)=>{
-            //     this.source=result;
-            // });
 
-            ajax(0).then((result)=>{
-                console.log(result);
-                this.source=result;
-            });
         },
-        // destroyed(){
-        //     removeListener();
-        // },
-        components:{
-            'g-button':Button,
-            'g-cascader':Cascader,
-            'g-popover':Popover
-        },
+
         methods:{
-            loadData({id},updateSource){
-                ajax(id).then(result=>{
-                    updateSource(result);
-                });
-            }
+
         }
     }
 </script>
 
 <style scoped lang="scss">
-
+    *{
+        margin:0;padding:0;box-sizing:border-box;
+    }
+.box{
+    width:200px;
+    height:150px;
+    background-color:#ddd;
+    border:1px solid red;
+}
 </style>
