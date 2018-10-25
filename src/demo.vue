@@ -26,7 +26,7 @@
         },
         data(){
             return {
-                selected:undefined
+                selected:'world'
             }
         },
         created(){
