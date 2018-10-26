@@ -35,11 +35,8 @@ describe('Popover', () => {
                 trigger:'hover'
             }
         });
-        console.log((wrapper.find('.content-wrapper').element));
         expect(wrapper.find('.content-wrapper').element).to.not.exist;
         wrapper.find('.popover').trigger('mouseenter');
-        console.log(wrapper.html());
-
         expect(wrapper.find('.content-wrapper').element).to.exist;
     });
 });
