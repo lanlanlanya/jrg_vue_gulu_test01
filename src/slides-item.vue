@@ -24,8 +24,6 @@
         },
         computed:{
             visible(){
-                console.log(`我的name是${this.name}`)
-                console.log(`我的方向是${this.reverse? "正向":"反向"}`)
                 return this.selected===this.name;
             }
         }
@@ -44,23 +42,19 @@
         height:100%;
     }
     .slide-enter-active, .slide-leave-active{
-        transition: all 5s;
+        transition: all .5s;
     }
     .slide-enter{
         transform:translateX(100%);
-        opacity: 0;
+    }
+    .slide-enter.reverse{
+        transform:translateX(-100%);
     }
     .slide-leave-to{
         transform:translateX(-100%);
-        opacity: 0;
     }
-    .slide-enter.reverse{
-        transform:translateX(-100%) scale(0.5);
-        opacity: 0;
-    }
-    .slide-leave-to.reverse{
-        transform:translateX(100%) scale(0.5);
 
-        opacity: 0;
+    .slide-leave-to.reverse{
+        transform:translateX(100%);
     }
 </style>

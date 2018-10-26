@@ -26,7 +26,7 @@
         },
         data(){
             return {
-                selected:'3'
+                selected:undefined
             }
         },
         created(){
@@ -50,6 +50,9 @@
     width:100%;
     height:350px;
     background-color:#ddd;
-    border:1px solid red;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size: 30px;
 }
 </style>
