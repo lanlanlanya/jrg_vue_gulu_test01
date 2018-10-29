@@ -37,7 +37,8 @@
 
 </style>
 <style lang="scss" scoped>
-   @import "../var";
+   @import "var";
+   /*webpack配置scss根目录*/
     .g-button{
         font-size:$font-size;
         height: $button-height;
