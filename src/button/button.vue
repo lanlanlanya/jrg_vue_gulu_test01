@@ -37,7 +37,7 @@
 
 </style>
 <style lang="scss" scoped>
-   @import "var";
+   @import "../var";
     .g-button{
         font-size:$font-size;
         height: $button-height;

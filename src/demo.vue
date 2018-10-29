@@ -16,8 +16,8 @@
 
 <script>
 
-    import Slides from './slides'
-    import SlidesItem from './slides-item'
+    import Slides from './slider/slides'
+    import SlidesItem from './slider/slides-item'
     export default {
         name: "demo",
         components:{

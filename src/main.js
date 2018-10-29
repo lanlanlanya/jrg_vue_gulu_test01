@@ -30,7 +30,7 @@ new Vue({
 // import Collapse from './collapse'
 // import CollapseItem from './collapse-item'
 // import Cascader from "./cascader"
-import CascaderItems from "./cascader-items"
+import CascaderItems from "./cascader/cascader-items"
 // Vue.component('g-button',Button);
 // Vue.component('g-icon',Icon);
 // Vue.component('g-button-group',ButtonGroup);
