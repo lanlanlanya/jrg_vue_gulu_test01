@@ -1,20 +1,20 @@
 <template>
     <div class="g-slides" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave"
-    @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd" >
+    @touchstart="onTouchStart"  @touchend="onTouchEnd" >
         <div class="g-slides-window" ref="window">
             <div class="g-slides-wrapper">
                 <slot></slot>
             </div>
         </div>
         <div class="g-slides-dots">
-            <span @click="onClickPrevious" >
+            <span @click="onClickPrevious" data-action="previous" >
                 <g-icon name="left"></g-icon>
             </span>
             <span v-for="n in childrenLength" :class="{active:selectedIndex===n-1}"
-            @click="select(n-1)" key="n" :data-index="n-1">
+            @click="select(n-1)" :data-index="n-1">
                 {{n}}
             </span>
-            <span @click="onClickNext" >
+            <span @click="onClickNext" data-action="next" >
                  <g-icon name="right"></g-icon>
             </span>
         </div>
@@ -38,7 +38,7 @@
             },
             autoPlayDelay:{
                 type:Number,
-                default:2000
+                default:4000
             }
         },
         data(){
@@ -59,6 +59,9 @@
         updated(){
             this.updateChildren();
         },
+        beforeDestroy(){
+            this.pause();
+        },
         computed:{
             selectedIndex(){
                 let index=this.names.indexOf(this.selected);
@@ -73,9 +76,11 @@
         },
         methods:{
             onClickPrevious(){
+                console.log(this.selectedIndex);
                this.select(this.selectedIndex-1);
             },
             onClickNext(){
+
                 this.select(this.selectedIndex+1);
             },
             onMouseEnter(){
@@ -91,18 +96,14 @@
                 }
                 this.startTouch=e.touches[0];
             },
-            onTouchMove(){
-            },
             onTouchEnd(e){
                 let endTouch=e.changedTouches[0];
                 let {clientX:x1,clientY:y1}=this.startTouch;
                 let {clientX:x2,clientY:y2}=endTouch;
                 let distance=Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
                 let deltaY=Math.abs(y2-y1);
-                let sin=deltaY/distance;
-                if(sin>0.5){
-                    return;
-                }else{
+                let rate= distance/deltaY;
+                if(rate>2){
                     if(x2>x1){
                         this.select(this.selectedIndex-1);
                     }else{
@@ -145,9 +146,8 @@
                         if(this.lastSelectedIndex===this.items.length-1 && this.selectedIndex===0){
                             reverse=false;
                         }
-
-                    if( this.lastSelectedIndex===0 &&  this.selectedIndex===this.items.length-1 ){
-                        reverse=true;
+                        if( this.lastSelectedIndex===0 &&  this.selectedIndex===this.items.length-1 ){
+                            reverse=true;
                      }
                     }
                     vm.reverse=reverse;
@@ -162,10 +162,7 @@
 
 <style scoped lang="scss">
     .g-slides{
-
-        &-window{
-            overflow: hidden;
-        }
+        &-window{overflow: hidden;}
         &-wrapper{
             position: relative;
         }
@@ -194,9 +191,7 @@
                         cursor:default;
                     }
                 }
-
             }
         }
-
     }
 </style>

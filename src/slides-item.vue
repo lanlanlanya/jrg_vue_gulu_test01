@@ -32,7 +32,6 @@
 
 <style scoped lang="scss">
     .g-slides-item{
-
     }
     .slide-leave-active{
         position: absolute;
