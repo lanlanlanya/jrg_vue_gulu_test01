@@ -78,5 +78,6 @@
     border-bottom:1px solid $rey;
     color:$color;
     cursor:default;
+    user-select: none;
 }
 </style>

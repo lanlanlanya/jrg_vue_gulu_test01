@@ -1,7 +1,10 @@
 <template>
     <div class="g-sub-nav" :class="{active}" v-click-outside="close">
-        <span @click="onClick">
+        <span class="g-sub-nav-label" @click="onClick">
             <slot name="title"></slot>
+            <span class="g-sub-nav-icon" :class="{open}">
+                <g-icon  name="right" class="g-sub-nav-scale">  </g-icon>
+            </span>
         </span>
         <div class="g-sub-nav-popover" v-show="open">
             <slot></slot>
@@ -11,10 +14,14 @@
 
 <script>
     import ClickOutside from '../click-outside'
+    import Icon from '../icon'
     export default {
         name: "GuluSubNav",
         inject:['root'],
         directives:{ClickOutside},
+        components:{
+            'g-icon':Icon
+        },
         props:{
             name:{
                 type:String,
@@ -66,9 +73,12 @@
                 width:100%;
         }
     }
-    >span{
+    &-label{
         display: block;
         vertical-align: top;
+    }
+    &-icon{
+        display: none;
     }
     &-popover{
         position: absolute;
@@ -84,9 +94,36 @@
         min-width:8em;
     }
 }
-    .g-sub-nav .g-sub-nav .g-sub-nav-popover{
-        top:0;
-        left:100%;
-        margin-left: 4px;
+    .g-sub-nav .g-sub-nav {
+        &.active {
+            &::after{
+                display:none;
+            }
+        }
+        display: flex;
+        align-items: center;
+        .g-sub-nav-popover{
+            top:0;
+            left:100%;
+            margin-left: 4px;
+        }
+        .g-sub-nav-label{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .g-sub-nav-icon{
+            .g-sub-nav-scale{
+                transform: scale(0.6);
+            }
+            display:inline-flex;
+            margin-left: 1em;
+            svg：{fill:$light-color}
+            transition: all  .2s;
+            &.open {
+                transform: rotate(180deg);
+            }
+        }
     }
+    
 </style>
