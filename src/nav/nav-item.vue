@@ -21,6 +21,8 @@
         },
         methods:{
             onClick(){
+                this.root.namePath=[];
+                this.$parent.updateNamePath && this.$parent.updateNamePath();
                 this.$emit('add:selected',this.name);
             }
         },
@@ -34,8 +36,8 @@
     @import "var";
 .g-nav-item{
     padding:10px 20px;
+    position: relative;
     &.selected{
-        position: relative;
         &::after {
             content:'';
             position:absolute;
