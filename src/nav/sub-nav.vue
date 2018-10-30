@@ -1,17 +1,49 @@
 <template>
-    <div class="g-sub-vue">
-        <slot></slot>
+    <div class="g-sub-nav">
+        <span @click="onClick">
+            <slot name="title"></slot>
+        </span>
+        <div class="g-sub-nav-popover" v-show="open">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "GuluSubNav"
+        name: "GuluSubNav",
+        data(){
+            return {
+                open:false
+            }
+        },
+        methods:{
+            onClick(){
+                this.open=!this.open;
+            }
+        }
     }
 </script>
 
 <style scoped lang="scss">
-.g-sub-vue{
-
+.g-sub-nav{
+    position: relative;
+    padding:10px 20px;
+    >span{
+        display: block;
+        vertical-align: top;
+    }
+    &-popover{
+        position: absolute;
+        top:100%;
+        left: 0;
+        border:1px solid blue;
+        white-space:nowrap;
+    }
 }
+    .g-sub-nav .g-sub-nav .g-sub-nav-popover{
+        top:0;
+        left:100%;
+        margin-left: 4px;
+    }
 </style>
