@@ -26,9 +26,11 @@
 </script>
 
 <style scoped lang="scss">
+    @import "var";
 .g-sub-nav{
     position: relative;
     padding:10px 20px;
+
     >span{
         display: block;
         vertical-align: top;
@@ -37,10 +39,17 @@
         position: absolute;
         top:100%;
         left: 0;
-        border:1px solid blue;
+        margin-top:4px;
         white-space:nowrap;
+        background: white;
+        box-shadow:0 0 3px  fade_out(black,0.7) ;
+        border-radius: $border-radius;
+        color:$light-color;
+        font-size:$font-size;
+        min-width:8em;
     }
 }
+
     .g-sub-nav .g-sub-nav .g-sub-nav-popover{
         top:0;
         left:100%;

@@ -31,10 +31,30 @@
 </script>
 
 <style scoped lang="scss">
+    @import "var";
 .g-nav-item{
     padding:10px 20px;
     &.selected{
-        background: red;
+        position: relative;
+        &::after {
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            border-bottom:2px solid $blue;
+            width:100%;
+
+        }
     }
 }
+    .g-sub-nav .g-nav-item{
+        &.selected{
+            color:$color;
+            background: $rey;
+            &::after {
+                display: none;
+            }
+        }
+
+    }
 </style>
