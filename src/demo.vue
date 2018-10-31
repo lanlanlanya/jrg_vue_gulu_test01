@@ -1,6 +1,6 @@
 <template>
     <div>
-        <g-nav :selected.sync="selected" style="margin:20px;">
+        <g-nav :selected.sync="selected" style="margin:20px;" @update:selected="onChange">
             <g-nav-item name="home">首页</g-nav-item>
             <g-sub-nav name="about">
                 <template slot="title" >关于</template>
@@ -41,7 +41,7 @@
             </g-sub-nav>
             <g-nav-item name="hire">招聘</g-nav-item>
         </g-nav>
-        <p>你好，我是中文</p>
+        <p>用户选中了{{selected}}</p>
     </div>
 </template>
 
@@ -60,7 +60,21 @@
 
         data(){
             return {
-               selected:['culture']
+               selected:'culture'
+            }
+        },
+        methods:{
+            onChange(selected){
+                if(selected.indexOf('home')>=0){
+
+                }
+            }
+        },
+        watch:{
+            selected(newValue){
+                if(newValue==='home'){
+                   
+                }
             }
         }
     }
