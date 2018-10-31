@@ -3,12 +3,22 @@
         <span class="g-sub-nav-label" @click="onClick">
             <slot name="title"></slot>
             <span class="g-sub-nav-icon" :class="{open}">
-                <g-icon  name="right" class="g-sub-nav-scale">  </g-icon>
+                <g-icon  name="right">  </g-icon>
             </span>
         </span>
-        <div class="g-sub-nav-popover" v-show="open">
-            <slot></slot>
-        </div>
+        <template v-if="vertical">
+            <transition  @enter="enter" @leave="leave" @after-leave="afterLeave" @after-enter="afterEnter">
+                <div class="g-sub-nav-popover" v-show="open" :class="{vertical}">
+                    <slot></slot>
+                </div>
+            </transition>
+        </template>
+        <template v-else>
+            <div class="g-sub-nav-popover"  v-show="open">
+                <slot></slot>
+            </div>
+        </template>
+
     </div>
 </template>
 
@@ -17,7 +27,7 @@
     import Icon from '../icon'
     export default {
         name: "GuluSubNav",
-        inject:['root'],
+        inject:['root','vertical'],
         directives:{ClickOutside},
         components:{
             'g-icon':Icon
@@ -39,8 +49,35 @@
           }
         },
         methods:{
+            enter(el,done){
+                let {height}=el.getBoundingClientRect();
+                el.style.height=0;
+                el.getBoundingClientRect();
+                el.style.height=`${height}px`;
+                el.addEventListener('transitionend',()=>{
+                    done();
+                });
+            },
+            afterEnter(el){
+                el.style.height='auto';
+            },
+            leave(el,done){
+                let {height}=el.getBoundingClientRect();
+                el.style.height=`${height}px`;
+                el.getBoundingClientRect();
+                el.style.height=0;
+                el.addEventListener('transitionend',()=>{
+                    done();
+                });
+            },
+            afterLeave(el){
+                el.style.height='auto';
+            },
             onClick(){
                 this.open=!this.open;
+            },
+            close(){
+                this.open=false;
             },
             updateNamePath(){
                 this.root.namePath.unshift(this.name);
@@ -49,10 +86,8 @@
                 }else{
                     // this.root.namePath=[];
                 }
-            },
-            close(){
-                this.open=false;
             }
+
         }
     }
 </script>
@@ -61,9 +96,7 @@
     @import "var";
 .g-sub-nav{
     position: relative;
-    padding:10px 20px;
     &.active{
-        position: relative;
             &::after {
                 content:'';
                 position:absolute;
@@ -74,13 +107,14 @@
         }
     }
     &-label{
+        padding:10px 20px;
         display: block;
-        vertical-align: top;
     }
     &-icon{
         display: none;
     }
     &-popover{
+        transition: height 250ms;
         position: absolute;
         top:100%;
         left: 0;
@@ -92,6 +126,12 @@
         color:$light-color;
         font-size:$font-size;
         min-width:8em;
+        &.vertical{
+            position:static;
+            border-radius:0;
+            border:none;
+            box-shadow:none ;
+        }
     }
 }
     .g-sub-nav .g-sub-nav {
@@ -100,8 +140,6 @@
                 display:none;
             }
         }
-        display: flex;
-        align-items: center;
         .g-sub-nav-popover{
             top:0;
             left:100%;
@@ -113,13 +151,10 @@
             justify-content: space-between;
         }
         .g-sub-nav-icon{
-            .g-sub-nav-scale{
-                transform: scale(0.6);
-            }
+            transition: transform  250ms;
             display:inline-flex;
             margin-left: 1em;
-            svg：{fill:$light-color}
-            transition: all  .2s;
+            svg{fill:$light-color;}
             &.open {
                 transform: rotate(180deg);
             }
