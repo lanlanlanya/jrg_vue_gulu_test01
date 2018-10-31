@@ -1,8 +1,8 @@
 <template>
-    <div class="g-sub-nav" :class="{active}" v-click-outside="close">
+    <div class="g-sub-nav" :class="{active,vertical}" v-click-outside="close">
         <span class="g-sub-nav-label" @click="onClick">
             <slot name="title"></slot>
-            <span class="g-sub-nav-icon" :class="{open}">
+            <span class="g-sub-nav-icon" :class="{open,vertical}">
                 <g-icon  name="right">  </g-icon>
             </span>
         </span>
@@ -96,7 +96,8 @@
     @import "var";
 .g-sub-nav{
     position: relative;
-    &.active{
+    &:not(.vertical){
+        &.active{
             &::after {
                 content:'';
                 position:absolute;
@@ -104,6 +105,7 @@
                 bottom:0;
                 border-bottom:2px solid $blue;
                 width:100%;
+            }
         }
     }
     &-label{
@@ -115,12 +117,12 @@
     }
     &-popover{
         transition: height 250ms;
+        background: white;
         position: absolute;
         top:100%;
         left: 0;
         margin-top:4px;
         white-space:nowrap;
-        background: white;
         box-shadow:0 0 3px  fade_out(black,0.7) ;
         border-radius: $border-radius;
         color:$light-color;
@@ -131,6 +133,7 @@
             border-radius:0;
             border:none;
             box-shadow:none ;
+            overflow: hidden;
         }
     }
 }
@@ -155,6 +158,12 @@
             display:inline-flex;
             margin-left: 1em;
             svg{fill:$light-color;}
+            &.vertical{
+                transform: rotate(90deg);
+                &.open {
+                    transform: rotate(270deg);
+                }
+            }
             &.open {
                 transform: rotate(180deg);
             }

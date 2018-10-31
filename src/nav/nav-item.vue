@@ -1,5 +1,5 @@
 <template>
-    <div class="g-nav-item" :class="{selected,vertical}" @click="onClick" data-name="name">
+    <div class="g-nav-item" :class="{selected,vertical}" @click="onClick">
         <slot ></slot>
     </div>
 </template>
@@ -23,7 +23,7 @@
             onClick(){
                 this.root.namePath=[];
                 this.$parent.updateNamePath && this.$parent.updateNamePath();
-                this.$emit('update:selected',this.name);
+                this.$emit('add:selected',this.name);
             }
         },
         created(){
@@ -34,6 +34,10 @@
 
 <style scoped lang="scss">
     @import "var";
+    a{
+        color: inherit;
+        text-decoration: none;
+    }
 .g-nav-item{
     padding:10px 20px;
     position: relative;
@@ -51,14 +55,10 @@
 }
     &.vertical{
         &.selected{
-            color:$blue;
+           color:$blue;
         }
-    }
+     }
 }
-    a{
-        color: inherit;
-        text-decoration: none;
-    }
     .g-sub-nav .g-nav-item:not(.vertical){
         &.selected{
             color:$color;
