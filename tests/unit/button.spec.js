@@ -32,8 +32,9 @@ describe('Button', () => {
         expect(useElements.length).to.equal(1);
         expect(useElements[0].getAttribute('xlink:href')).to.equal('#i-loading');
     });
-    xit('icon 默认的 order 是 1', () => {
+    it('icon 默认的 order 是 1', () => {
         const wrapper = mount(Button,{
+            attachToDocument:true,
             propsData: {
                 icon: 'settings'
             }
@@ -44,8 +45,9 @@ describe('Button', () => {
         vm.$el.remove();
         vm.$destroy();
     });
-   xit('设置 iconPosition 可以改变 order', () => {
-        const wrapper=mount('Button',{
+   it('设置 iconPosition 可以改变 order', () => {
+        const wrapper= mount(Button,{
+            attachToDocument:true,
             propsData: {
                 icon: 'settings',
                 iconPosition: 'right'

@@ -55,7 +55,7 @@ describe('Nav', () => {
                 'update:selected':callback
             }
         });
-            wrapper.find('[data-name="developers"]').trigger('click');;
+            wrapper.find('[data-name="developers"]').trigger('click');
             expect(callback).to.have.been.calledWith('developers');
             done();
     })
