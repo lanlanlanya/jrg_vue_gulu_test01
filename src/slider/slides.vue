@@ -76,7 +76,6 @@
         },
         methods:{
             onClickPrevious(){
-                console.log(this.selectedIndex);
                this.select(this.selectedIndex-1);
             },
             onClickNext(){
