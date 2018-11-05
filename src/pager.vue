@@ -1,6 +1,6 @@
 <template>
-    <div class="gulu-pager" style="margin:20px;">
-        <span class="gulu-pager-nav prev" :class="{disabled:currentPage===1}">
+    <div class="gulu-pager" style="margin:20px;" :class="{hide: hideIfOnePage===true && totalPage<=1}">
+        <span class="gulu-pager-nav prev" :class="{disabled:currentPage===1}"  @click="onClickPage(currentPage-1)">
              <g-icon name="left"></g-icon>
         </span>
         <template v-for="page in pages">
@@ -8,13 +8,13 @@
                 <span class="gulu-pager-item current">{{page}}</span>
             </template>
             <template v-else-if="page==='...'">
-                <g-icon name="dots" class="gulu-pager-item separator">?</g-icon>
+                <g-icon name="dots" class="gulu-pager-item separator"></g-icon>
             </template>
             <template v-else>
-                <span class="gulu-pager-item other">{{page}}</span>
+                <span class="gulu-pager-item other"  @click="onClickPage(page)">{{page}}</span>
             </template>
         </template>
-        <span class="gulu-pager-nav next" :class="{disabled:currentPage===totalPage}">
+        <span class="gulu-pager-nav next" :class="{disabled:currentPage===totalPage}"  @click="onClickPage(currentPage+1)">
             <g-icon name="right"></g-icon>
         </span>
 
@@ -43,21 +43,28 @@
                 default:true
             }
         },
-        data(){
-            let pages=unique([1,
-                        this.totalPage,this.currentPage,this.currentPage-1,
-                        this.currentPage-2,this.currentPage+1,
-                        this.currentPage+2]
-                        .filter((n)=> n>=1&& n<=this.totalPage) )
-                        .sort((a,b)=>a-b)
-                        .reduce((prev,current,index,self)=>{
-                            prev.push(current);
-                            self[index] && self[index+1] && self[index+1]-self[index]>1 && prev.push('...');
-                            return prev;
-                        },[]);
-                        return {
-                            pages:pages
-                        }
+        computed:{
+            pages(){
+                return unique([1,
+                    this.totalPage,this.currentPage,this.currentPage-1,
+                    this.currentPage-2,this.currentPage+1,
+                    this.currentPage+2]
+                    .filter((n)=> n>=1&& n<=this.totalPage) )
+                    .sort((a,b)=>a-b)
+                    .reduce((prev,current,index,self)=>{
+                        prev.push(current);
+                        self[index] && self[index+1] && self[index+1]-self[index]>1 && prev.push('...');
+                        return prev;
+                    },[]);
+
+            }
+        },
+        methods:{
+            onClickPage(n){
+                if(n>=1 && n<=this.totalPage){
+                    this.$emit('update:currentPage',n);
+                }
+            }
         }
     }
     function unique(array){
@@ -85,6 +92,8 @@
         $width:20px;
         $height:20px;
         $font-size:12px;
+        user-select: none;
+        &.hide{display:none;}
         &-item{
             border:1px solid #e1e1e1;
             border-radius: $border-radius;
@@ -97,7 +106,6 @@
             height: $height;
             margin:0 4px;
             cursor: pointer;
-
             &.current ,&:hover{
                 border-color:$blue;
             }
@@ -120,7 +128,9 @@
             height: $height;
             border-radius: $border-radius;
             font-size: $font-size;
+            cursor: pointer;
             &.disabled {
+                cursor: default;
                 svg{
                     fill:darken($rey,30%);
                 }
