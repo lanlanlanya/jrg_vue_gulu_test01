@@ -1,9 +1,11 @@
 <template>
     <div>
         <p>有边框，有隔行变色</p>
-        <p>{{selected}}</p>
         <div style="margin:20px;">
-            <g-table :colums="colums" :data-source="dataSource" bordered striped @changeItem="x"></g-table>
+            <g-table :colums="colums" :order-by.sync="orderBy" :data-source="dataSource"
+                     bordered striped  :selected-items.sync="selected" @update:orderBy="x"
+                      :loading="loading"
+            ></g-table>
         </div>
         <p>有边框，无隔行变色</p>
         <div style="margin:20px;">
@@ -39,6 +41,11 @@
                     {text:'姓名',field:'name'},
                     {text:'分数',field:'score'},
                 ],
+                orderBy:{
+                    // true-开启排序，但是不确定asc还是desc
+                    score:'desc'
+                },
+                loading:false,
                 dataSource:[
                     {id:1,name:"张三丰",score:100},
                     {id:2,name:"张翠山",score:90},
@@ -52,14 +59,14 @@
             }
         },
         methods:{
-            x(object){
-                let {selected,item,index}=object;
-                if(selected){
-                    this.selected.push(item);
-                }else{
-                    let index=this.selected.indexOf(item);
-                    this.selected.splice(index,1);
-                }
+            x(){
+               // 排序逻辑由后台实现，以下为前台排序示例代码
+                this.loading=true;
+                setTimeout(()=>{
+                    this.dataSource=this.dataSource.sort((a,b)=>a.score-b.score);
+                    this.loading=false;
+                },3000)
+
             }
         }
     }
