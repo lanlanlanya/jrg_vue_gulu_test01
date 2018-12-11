@@ -1,40 +1,60 @@
 <template>
-    <div class="gulu-table-wrapper">
-        <table class="gulu-table" :class="{bordered,compact,striped:striped}">
-            <thead>
-            <tr>
-                <th>
-                    <input type="checkbox" @change="onChangeAllItems" ref="allChecked" :checked="areAllItemsSelected">
-                </th>
-                <th v-if="numberVisible">#</th>
-                <th v-for="colum in colums" :key="colum.field">
-                    <div class="gulu-table-header">
-                        {{colum.text}}
-                        <span class="gulu-table-sorter" v-if="colum.field in orderBy" @click="changeOrderBy(colum.field)">
-                             <g-icon name="asc" :class="{active: orderBy[colum.field]==='asc'}" ></g-icon>
-                             <g-icon name="desc" :class="{active: orderBy[colum.field]==='desc'}"></g-icon>
-                         </span>
-                    </div>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(item,index) in dataSource" :key="item.id">
-                <td>
-                    <input type="checkbox"  @change="onChangeItem(item,index,$event)"
-                           :checked="inSelectedItem(item)"
-                    />
-                </td>
-                <td v-if="numberVisible"> {{index+1}} </td>
-                <template v-for="colum in colums" >
-                    <td :key="colum.field">{{item[colum.field]}}</td>
+    <div class="gulu-table-wrapper"  ref="wrapper">
+        <div :style="{height:height+'px',overflow:'auto'}" ref="tableWrapper">
+            <table class="gulu-table" :class="{bordered,compact,striped:striped}" ref="table">
+                <thead>
+                <tr>
+                    <th v-if="expendField" :style="{width:'50px'}" class="gulu-table-center"></th>
+                    <th v-if="checkable" :style="{width:'50px'}" class="gulu-table-center">
+                        <input type="checkbox" @change="onChangeAllItems" ref="allChecked" :checked="areAllItemsSelected">
+                    </th>
+                    <th v-if="numberVisible" :style="{width:'50px'}" class="gulu-table-center">#</th>
+                    <th :style="{width:colum.width+'px'}" v-for="colum in colums" :key="colum.field">
+                        <div class="gulu-table-header">
+                            {{colum.text}}
+                            <span class="gulu-table-sorter" v-if="colum.field in orderBy" @click="changeOrderBy(colum.field)">
+                                 <g-icon name="asc" :class="{active: orderBy[colum.field]==='asc'}" ></g-icon>
+                                 <g-icon name="desc" :class="{active: orderBy[colum.field]==='desc'}"></g-icon>
+                             </span>
+                        </div>
+                    </th>
+                    <th v-if="$scopedSlots.default" ref="actionsHead"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <template v-for="(item,index) in dataSource" >
+                    <tr :key="item.id">
+                        <td :style="{width:'50px'}" class="gulu-table-center"  v-if="expendField">
+                            <g-icon name="right" class="gulu-table-expendIcon" @click="expendItem(item.id)"></g-icon>
+                        </td>
+                        <td v-if="checkable" :style="{width:'50px'}" class="gulu-table-center">
+                            <input type="checkbox"  @change="onChangeItem(item,index,$event)"
+                                   :checked="inSelectedItem(item)"
+                            />
+                        </td>
+                        <td :style="{width:'50px'}" v-if="numberVisible" class="gulu-table-center"> {{index+1}} </td>
+                        <template v-for="colum in colums" >
+                            <td :style="{width:colum.width+'px'}" :key="colum.field">{{item[colum.field]}}</td>
+                        </template>
+                        <td v-if="$scopedSlots.default">
+                            <div ref="actions" style="display: inline-block;">
+                                <slot :item="item"></slot>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr :key="`${item.id}-expend`" v-if="inExpendedIds(item.id)">
+                        <td :colspan="colums.length + expendedCellColSpan">{{item[expendField] || '空'}}</td>
+                    </tr>
                 </template>
-            </tr>
-            </tbody>
-        </table>
-        <div class="gulu-table-loading" v-if="loading">
-            <g-icon name="loading"></g-icon>
+                </tbody>
+            </table>
         </div>
+            <div class="gulu-table-loading" v-if="loading">
+                <g-icon name="loading"></g-icon>
+            </div>
+
+
     </div>
 </template>
 
@@ -43,10 +63,18 @@
     export default {
         name: "GuluTable",
         components:{'g-icon':Icon},
+        data(){
+            return {
+                expendedIds:[]
+            }
+        },
         props:{
             orderBy:{
                 type:Object,
                 default:()=>({})
+            },
+            height:{
+                type:Number
             },
             loading:{
                 type:Boolean,
@@ -60,7 +88,9 @@
                 type:Array,
                 default:()=>[]
             },
-
+            expendField:{
+                type:String
+            },
             dataSource:{
                 type:Array,
                 required:true,
@@ -70,7 +100,7 @@
             },
             numberVisible:{
                 type:Boolean,
-                default:true
+                default:false
             },
             bordered:{
                 type:Boolean,
@@ -83,6 +113,10 @@
             striped:{
                 type:Boolean,
                 default:true
+            },
+            checkable:{
+                type:Boolean,
+                default:false
             }
         },
         watch:{
@@ -97,6 +131,16 @@
             }
         },
         computed:{
+            expendedCellColSpan(){
+                let result=0;
+                if(this.checkable){
+                    result +1;
+                }
+                if(this.expendField){
+                    result+1;
+                }
+                return result;
+            },
             areAllItemsSelected(){
              const a=this.dataSource.map(item=>item.id).sort();
              const b=this.selectedItems.map(item=>item.id).sort();
@@ -113,7 +157,52 @@
                 return equal;
             }
         },
+        mounted(){
+            let table2= this.$refs.table.cloneNode(false);
+            table2.classList.add("gulu-table-copy");
+            let tHead=this.$refs.table.children[0];
+            let {height}=tHead.getBoundingClientRect();
+            this.$refs.tableWrapper.style.marginTop=height+'px';
+            this.$refs.tableWrapper.style.height=parseInt(this.height)-height +'px';
+            table2.appendChild(tHead);
+            this.$refs.wrapper.appendChild(table2);
+            this.table2=table2;
+          if(this.$scopedSlots.default){
+              let div=this.$refs.actions[0];
+             let {width}=div.getBoundingClientRect();
+              let parent=div.parentNode;
+              let styles=getComputedStyle(parent);
+             let paddingLeft=styles.getPropertyValue('padding-left');
+             let paddingRight=styles.getPropertyValue('padding-right');
+             let borderLeft=styles.getPropertyValue('border-left-width');
+             let borderRight=styles.getPropertyValue('border-right-width');
+             let width2=width+parseInt(paddingLeft) +parseInt(paddingRight)+parseInt(borderLeft) +parseInt(borderRight)+'px';
+             this.$refs.actionsHead.style.width=width2;
+
+              this.$refs.actions.map((div)=>{
+                  console.log( div.parentNode);
+                  div.parentNode.style.width=width2
+              });
+
+
+          }
+        },
+        beforeDestroy(){
+            this.table2.remove();
+        },
         methods:{
+            inExpendedIds(id){
+                return this.expendedIds.indexOf(id)>=0
+            },
+            expendItem(id){
+                let index=this.expendedIds.indexOf(id);
+                if(index===-1){
+                    this.expendedIds.push(id);
+                }else{
+                    this.expendedIds.splice(index,1);
+                }
+
+            },
             inSelectedItem(item){
                 return this.selectedItems.filter((i)=>i.id===item.id).length>0
             },
@@ -212,6 +301,7 @@
         }
         &-wrapper{
             position: relative;
+            overflow: auto;
         }
         &-loading{
             background: rgba(255,255,255,.8);
@@ -229,6 +319,19 @@
                 @include  spin;
             }
         }
-
+        &-copy{
+            position: absolute;
+            background: white;
+            width:100%;
+            top:0;
+            left:0;
+        }
+        &-expendIcon{
+            width: 10px;
+            height: 10px;
+        }
+        & &-center{
+            text-align: center;
+        }
     }
 </style>
