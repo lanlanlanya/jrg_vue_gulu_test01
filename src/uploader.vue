@@ -1,6 +1,6 @@
 <template>
     <div class="gulu-uploader">
-        {{fileList}}
+
         <div @click="onClickUpload">
             <slot></slot>
         </div>
@@ -79,6 +79,7 @@
             createInput(){
                 this.$refs.temp.innerHTML='';
                 let input =document.createElement('input');
+                input.accept="image/*";
                 input.type="file";
                 input.multiple="multiple";
                 this.$refs.temp.appendChild(input);

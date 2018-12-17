@@ -1,8 +1,5 @@
 <template>
     <div style="margin: 20px;">
-        {{error}}
-        <br>
-        {{fileList}}
         <div>只能上传 300 kb 以内的 png 、jpg 文件</div>
        <g-uploader accept="image/*" method="POST" action="http://127.0.0.1:3000/upload" name="file"
                    @upload:filefList="y"
