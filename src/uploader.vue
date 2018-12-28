@@ -63,18 +63,21 @@
         },
         methods:{
             onClickUpload(){
+
                 //create input
                 let input=this.createInput();
                 //listen to input
-                input.addEventListener('change',()=>{
+                input.addEventListener('change',(e)=>{
                     //upload file,单文件上传
                     // this.uploadFile(input.files[0]);
                     //多文件上传
                     this.uploadFiles(input.files);
+
                     input.remove();
                 });
                 //trigger click
                 input.click();
+
             },
             createInput(){
                 this.$refs.temp.innerHTML='';
@@ -99,9 +102,11 @@
                 for (let i=0;i<rawFiles.length;i++) {
                     let rawFile = rawFiles[i];
                     let newName=newNames[i];
+
                     let formData=new FormData();
                     formData.append(this.name,rawFile);
                     this.doUploadFile(formData,(response)=>{
+
                         let url=this.parseResponse(response);
                         this.url=url;
                         this.afterUploadFile(newName,url);
@@ -126,10 +131,8 @@
                     let {type,size}=rawFile;
                     return {name:newNames[i],type,size,status:"uploading"}
                 });
-
                    this.$emit('update:fileList',[...this.fileList,...x]);
                    return true;
-
             },
             afterUploadFile(newName,url){
                 let file=this.fileList.filter(f=>f.name===newName)[0];

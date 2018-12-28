@@ -20,7 +20,6 @@ class Validator{
             validators.forEach((validatorkey) => {
                 //    key is minLength/ maxLength/hasNumber /pattern
                 if (this[validatorkey]) {
-                    console.log(2);
                     let error = this[validatorkey](value, rule[validatorkey]);
                     if (error) {
                         ensureObject(errors, rule.key);
