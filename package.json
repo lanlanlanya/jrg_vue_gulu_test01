@@ -1,13 +1,14 @@
 {
   "name": "lanlanlanya-0109",
   "description": "这是一个 UI 框架",
-  "version": "0.0.2",
+  "version": "0.0.4",
+  "main": "dist/gulu.umd.js",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name gulu src/index.js",
-    "test:unit": "karma start",
-    "test": "karma start --single-run",
+    "test:unit": "cross-env BABEL_ENV=test karma start",
+    "test": "cross-env BABEL_ENV=test karma start --single-run",
     "test:unit:old": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -19,9 +20,12 @@
     "@vue/cli-plugin-unit-mocha": "^3.0.3",
     "@vue/cli-service": "^3.0.3",
     "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "karma": "^3.1.1",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
     "karma-mocha": "^1.3.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.32",
